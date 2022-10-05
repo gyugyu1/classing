@@ -1,0 +1,48 @@
+	body{
+		background-color: #F6F9F7;
+	}
+	h3{
+		color: #00C896;
+	}
+	.my-wrap{
+		width: 380px;
+	}
+	.btn-certification{
+		border: 1px solid #CED4DA;
+		background-color: white;
+		height: 50px; 
+		font-size: 14px;
+	}
+	.btn-submit{
+		font-size: 20px;
+		border: 1px solid #00C896;
+		height: 60px;
+		color: #00C896;
+		background-color: white;
+		margin-top: 2px;
+	}
+	.btn-submit:hover,
+	.btn-submit:active,
+	.btn-submit:visited,
+	.btn-submit:focus{
+		background-color :#00C896;
+		color: #ffffff;
+	}
+	a:Link,
+	a:hover,
+	a:active,
+	a:visited,
+	a:focus{
+		color: gray;
+		text-decoration: underline;
+	}
+	.form-control,
+	.form-select,
+	.btn-certification{
+		font-size: 13px;
+		height: 50px;
+	}
+	input::placeholder {
+		color: #A2969C;
+		font-size: 13px;
+	}

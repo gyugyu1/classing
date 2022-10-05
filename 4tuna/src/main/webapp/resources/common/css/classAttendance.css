@@ -1,0 +1,77 @@
+
+.attendance td>div {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
+}
+
+.attendance th:not(:first-child) {
+	padding: 3px;
+	width: 15%;
+}
+
+.attendance th>div {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 0px;
+	padding: 0px;
+}
+
+.today_attendance>.body {
+	display: flex;
+	justify-content: space-between;
+}
+
+.today_attendance>.body .progress {
+	width: 100%;
+	height: 50%;
+}
+
+.attendance_bar {
+	display: inline-block;
+	width: 60%;
+}
+
+.attendance_text>div:last-child {
+	font-size: 2rem;
+	font-weight: 600;
+}
+
+.attendance_bar>div {
+	font-size: 1.5rem;
+}
+
+.attendance {
+	border-style: none;
+	margin: 0;
+}
+
+.attendance>thead>tr:first-child {
+	border-top-style: none;
+}
+
+.attendance>tbody>tr>td:first-child {
+	border-right: 1px solid #dee2e6;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+.attendance>tbody>tr>td:first-child {
+	width: 25%;
+	height: 3rem;
+}
+
+.attendance>tbody>tr>td:first-child>div {
+	flex-direction: row;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 10%;
+	margin-bottom: 10%;
+}

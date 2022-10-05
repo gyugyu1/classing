@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" />
+<!-- Custom fonts for this template-->
+<link href="../../../../resources/common/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<link href="../../../../../resources/common/css/sb-admin-2.min.css" rel="stylesheet">
+<link href="../../../../../resources/user/css/classCommon.css" rel="stylesheet">
+<link href="../../../../../resources/common/css/boardCss.css" rel="stylesheet">
+
+<title>과제 현황</title>
+<style type="text/css">
+#sidebar {
+	background-color: white;
+}
+
+.btn-toggle {
+	font-size: 15px;
+	font-weight: bold;
+}
+
+#home {
+	margin-left: 40px;
+}
+
+#class {
+	margin-left: 20px;
+}
+
+.icon {
+	display: inline;
+	margin-right: 20px;
+}
+
+#classImg {
+	float: left;
+}
+
+#classInfo {
+	float: right;
+	font-size: 15px;
+	padding-top: 3px;
+}
+
+#menuList {
+	clear: both;
+}
+
+#btn-add {
+	border-radius: 50px;
+	font-size: 14px;
+	font-weight: bold;
+	margin-top: 10px;
+	margin-bottom: 30px;
+}
+
+.container_wrapper>div:first-child {
+	padding: 0;
+}
+
+.homework_table thead>tr:not(first-child)>td:first-child {
+	font-weight: 600;
+	color: black;
+}
+
+.homework_table tbody>tr>td:first-child {
+	color: black;
+}
+</style>
+</head>
+<body>
+	<div id="wrapper">
+
+		<!-- Sidebar -->
+		<ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
+
+			<!-- Sidebar - Brand -->
+			<img src="../../../../../resources/common/image/header_logo.png" width="180px;" style="margin-left: 10px;">
+
+			<!-- Divider -->
+			<hr class="sidebar-divider my-0">
+
+			<!-- Nav Item - Dashboard -->
+			<li class="nav-item active">
+				<div class="col-md-3 mt-4" id="classImg">
+					<img src="../../../../../resources/user/image/a3.jpg" width="50" height="50" style="border-radius: 7px;">
+				</div>
+				<div class="col-md-9 mt-4" id="classInfo">
+					<span>
+						<b>4조</b>
+					</span>
+					<p>
+						<span>2022</span>
+				</div>
+				<div class="d-flex justify-content-center w-100">
+					<button type="button" class="btn btn-lg mt-1 p-2" id="btn-add">
+						<i class="fa-solid fa-user-plus"></i> 구성원 초대하기
+					</button>
+				</div>
+			</li>
+
+			<!-- Divider -->
+			<hr class="sidebar-divider">
+
+			<!-- Nav Item - Pages Collapse Menu -->
+			<div class="sidebar-heading" style="color: #828282;">전체 메뉴</div>
+			<li class="nav-item">
+				<a class="nav-link" href="#"><i class="fa-solid fa-bullhorn" style="color: #828282;"></i> <span>모든 공지</span></a> <a class="nav-link" href="#"><i class="fa-solid fa-pencil" style="color: #828282;"></i> <span>모든 과제</span></a> <a class="nav-link" href="#"><i class="fa-solid fa-file-circle-check" style="color: #828282;"></i> <span>과제 리포트</span></a> <a class="nav-link" href="#"><i class="fa-solid fa-school-circle-check" style="color: #828282;""></i> <span>출석부</span></a> <a class="nav-link" href="#"><i class="fa-solid fa-users" style="color: #828282;"></i> <span>구성원</span></a> <a class="nav-link" href="#"><i class="fa-solid fa-gear" style="color: #828282;"></i> <span>클래스 설정</span></a>
+			</li>
+
+			<!-- Divider -->
+			<hr class="sidebar-divider">
+			<!-- Heading -->
+			<div class="sidebar-heading" style="color: #828282;">나만 참여한 공간</div>
+			<li class="nav-item">
+				<a class="nav-link" href="#"><i class="fa-solid fa-file-pen" style="color: #828282;"></i> <span>예약 / 임시저장한 글</span></a>
+			</li>
+
+			<!-- Divider -->
+			<hr class="sidebar-divider">
+
+			<!-- Heading -->
+			<div class="sidebar-heading" style="color: #828282;">내가 참여한 공간</div>
+
+			<!-- Nav Item - Pages Collapse Menu -->
+			<li class="nav-item">
+				<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages"> <i class="fas fa-fw fa-folder" style="color: #828282;"></i> <span>모두를 위한 공간</span>
+				</a>
+				<div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+					<div class="bg-white py-2 collapse-inner rounded">
+						<a class="collapse-item" href="login.html">자유 공간</a> <a class="collapse-item" href="register.html">학습 자료</a> <a class="collapse-item" href="forgot-password.html">활동 사진</a>
+					</div>
+				</div>
+			</li>
+
+
+			<!-- Divider -->
+			<hr class="sidebar-divider d-none d-md-block">
+		</ul>
+		<!-- End of Sidebar -->
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<!-- Topbar -->
+				<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+					<!-- Sidebar Toggle (Topbar) -->
+					<button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+						<i class="fa fa-bars"></i>
+					</button>
+
+
+					<!-- Topbar Navbar -->
+					<ul class="navbar-nav ml-auto">
+
+						<!-- Nav Item - Search Dropdown (Visible Only XS) -->
+						<li class="nav-item dropdown no-arrow d-sm-none">
+							<a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-search fa-fw"></i>
+							</a>
+							<!-- Dropdown - Messages -->
+							<div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+								<form class="form-inline mr-auto w-100 navbar-search">
+									<div class="input-group">
+										<input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+										<div class="input-group-append">
+											<button class="btn btn-primary" type="button">
+												<i class="fas fa-search fa-sm"></i>
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</li>
+
+						<!-- Nav Item - Alerts -->
+						<li class="nav-item dropdown no-arrow mx-1">
+							<a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-bell fa-fw"></i> <!-- Counter - Alerts --> <!-- <span class="badge badge-danger badge-counter">3+</span> -->
+							</a>
+						</li>
+
+						<!-- Nav Item - Messages -->
+						<li class="nav-item dropdown no-arrow mx-1">
+							<a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fa-solid fa-comment"></i> <!-- Counter - Messages --> <!-- <span class="badge badge-danger badge-counter">7</span> -->
+							</a>
+						</li>
+
+						<div class="topbar-divider d-none d-sm-block"></div>
+
+						<!-- Nav Item - User Information -->
+						<li class="nav-item dropdown no-arrow">
+							<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+									<b>윤수빈</b>
+								</span> <span class="mr-2 d-none d-lg-inline text-gray-600 small">학생</span> <img class="img-profile rounded-circle" src="../../../../../resources/common/image/profile2.png">
+							</a>
+						</li>
+
+					</ul>
+
+				</nav>
+				<!-- sidebar -->
+				<div class="container-fluid">
+					<div class="row justify-content-center">
+						<div class="col-md-6" id="context">
+							<div class="container_title shadow mb-4">
+								<div class="header">과제 리포트</div>
+								<div class="body">클래스에 배부된 모든 과제 현황을 확인할 수 있어요.</div>
+							</div>
+
+							<div class="container_wrapper shadow">
+								<div class="container_base">
+									<div class="homework_check">
+										<div class="homework_table table-responsive">
+											<table class="table m-0" id="dataTable" width="100%" cellspacing="0">
+												<thead>
+													<tr>
+														<th>전체 5명</th>
+														<th>과제1</th>
+														<th>과제2</th>
+														<th>과제3</th>
+														<th>과제4</th>
+													</tr>
+
+													<tr>
+														<td>평균 점수</td>
+														<td>0/100점</td>
+														<td>50/100점</td>
+														<td>40/100점</td>
+														<td>0/100점</td>
+													</tr>
+													<tr>
+														<td>제출률</td>
+														<td>0%</td>
+														<td>0%</td>
+														<td>50%</td>
+														<td>100%</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>박규원</td>
+														<td>
+															<div>
+																<span class="badge bg-danger">미제출</span>
+															</div>
+														</td>
+														<td>-</td>
+														<td>50점</td>
+														<td><span class="badge bg-warning">확인 필요</span></td>
+													</tr>
+													<tr>
+														<td>박규원</td>
+														<td>
+															<div>
+																<span class="badge bg-danger">미제출</span>
+															</div>
+														</td>
+														<td>-</td>
+														<td>50점</td>
+														<td><span class="badge bg-warning">확인 필요</span></td>
+													</tr>
+													<tr>
+														<td>박규원</td>
+														<td>
+															<div>
+																<span class="badge bg-danger">미제출</span>
+															</div>
+														</td>
+														<td>-</td>
+														<td>50점</td>
+														<td><span class="badge bg-warning">확인 필요</span></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<footer class="sticky-footer bg-white mt-5">
+					<div class="container my-auto">
+						<div class="copyright text-center my-auto">
+							<span>Copyright &copy; CLASSING 2021</span>
+						</div>
+					</div>
+				</footer>
+			</div>
+		</div>
+	</div>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+
+</body>
+</html>

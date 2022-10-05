@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" />
+
+<!-- Custom fonts for this template-->
+<link href="../../../../../resources/common/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<link href="../../../../../resources/common/css/sb-admin-2.css" rel="stylesheet">
+<link href="../../../../../resources/user/css/classCommon.css" rel="stylesheet">
+<link href="../../../../../resources/common/css/boardCss.css" rel="stylesheet">
+<title>학습진도</title>
+<style type="text/css">
+/*  	body{
+		background-color: #F9F9FA;
+	}
+ */
+#sidebar {
+	background-color: white;
+}
+
+.btn-toggle {
+	font-size: 15px;
+	font-weight: bold;
+}
+
+#home {
+	margin-left: 40px;
+}
+
+#class {
+	margin-left: 20px;
+}
+
+.icon {
+	display: inline;
+	margin-right: 20px;
+}
+
+#classImg {
+	float: left;
+}
+
+#classInfo {
+	float: right;
+	font-size: 15px;
+	padding-top: 3px;
+}
+
+#menuList {
+	clear: both;
+}
+
+#btn-add {
+	border-radius: 50px;
+	font-size: 14px;
+	font-weight: bold;
+	margin-top: 10px;
+	margin-bottom: 30px;
+}
+
+.container_base .header>*:first-child {
+	font-size: 1.2rem;
+	font-weight: 600;
+}
+
+.container_base .header>.progress {
+	height: 1.7rem;
+}
+
+.container_base .body>div {
+	display: flex;
+	justify-content: between;
+	align-items: stretch;
+	height: 1.25rem;
+	gap: 1rem;
+	margin-bottom: 0.5rem;
+}
+
+.container_base .body .badge {
+	width: 10%;
+	color: white;
+}
+
+.container_base .body * {
+	color: #5a5a5a;
+	font-weight: 600;
+}
+
+.video .body>div>*:first-child {
+	width: 10%;
+}
+
+.video .body .progress {
+	height: 100%;
+	width: 70%;
+}
+
+.homework>.body>div>*:nth-child(2) {
+	width: 70%;
+	text-align: right;
+}
+</style>
+</head>
+<body>
+	<div id="wrapper">
+
+		<!-- Sidebar -->
+		<ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
+
+			<!-- Sidebar - Brand -->
+			<img src="../../../../../resources/common/image/header_logo.png" width="180px;" style="margin-left: 10px;">
+
+			<!-- Divider -->
+			<hr class="sidebar-divider my-0">
+
+			<!-- Nav Item - Dashboard -->
+			<li class="nav-item active leftbarProfile">
+				<div class="col-md-3 mt-4" id="classImg">
+					<img src="../../../../../resources/user/image/a3.jpg" width="50" height="50" style="border-radius: 7px;">
+				</div>
+				<div class="col-md-9 mt-4" id="classInfo">
+					<span>
+						<b>4조</b>
+					</span>
+					<p>
+						<span>2022</span>
+				</div>
+				<div class="d-flex justify-content-center w-100">
+					<button type="button" class="btn btn-lg mt-1 p-2" id="btn-add">
+						<i class="fa-solid fa-user-plus"></i> 구성원 초대하기
+					</button>
+				</div>
+			</li>
+
+			<!-- Divider -->
+			<hr class="sidebar-divider">
+
+			<!-- Nav Item - Pages Collapse Menu -->
+			<div class="sidebar-heading" style="color: #828282;">전체 메뉴</div>
+			<li class="nav-item">
+				<a class="nav-link" href="../common/classNoticeList.html">
+					<i class="fa-solid fa-bullhorn" style="color: #828282;"></i>
+					<span>모든 공지</span>
+				</a>
+				<a class="nav-link" href="../common/classHomeworkList.html">
+					<i class="fa-solid fa-pencil" style="color: #828282;"></i>
+					<span>모든 과제</span>
+				</a>
+				<a class="nav-link" href="#">
+					<i class="fa-solid fa-file-circle-check" style="color: #828282;"></i>
+					<span>과제 리포트</span>
+				</a>
+				<a class="nav-link" href="#">
+					<i class="fa-solid fa-school-circle-check" style="color: #828282;""></i>
+					<span>출석부</span>
+				</a>
+				<a class="nav-link" href="../common/classMemberList.html">
+					<i class="fa-solid fa-users" style="color: #828282;"></i>
+					<span>구성원</span>
+				</a>
+				<a class="nav-link" href="#">
+					<i class="fa-solid fa-gear" style="color: #828282;"></i>
+					<span>클래스 설정</span>
+				</a>
+			</li>
+
+			<!-- Divider -->
+			<hr class="sidebar-divider">
+			<!-- Heading -->
+			<div class="sidebar-heading" style="color: #828282;">나만 참여한 공간</div>
+			<li class="nav-item">
+				<a class="nav-link" href="../common/classStorage.html">
+					<i class="fa-solid fa-file-pen" style="color: #828282;"></i>
+					<span>예약 / 임시저장한 글</span>
+				</a>
+			</li>
+
+			<!-- Divider -->
+			<hr class="sidebar-divider">
+
+			<!-- Heading -->
+			<div class="sidebar-heading" style="color: #828282;">내가 참여한 공간</div>
+
+			<!-- Nav Item - Pages Collapse Menu -->
+			<li class="nav-item">
+				<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+					<i class="fas fa-fw fa-folder" style="color: #828282;"></i>
+					<span>모두를 위한 공간</span>
+				</a>
+				<div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+					<div class="bg-white py-2 collapse-inner rounded">
+						<a class="collapse-item" href="login.html">자유 공간</a>
+						<a class="collapse-item" href="register.html">학습 자료</a>
+						<a class="collapse-item" href="forgot-password.html">활동 사진</a>
+					</div>
+				</div>
+			</li>
+
+
+			<!-- Divider -->
+			<hr class="sidebar-divider d-none d-md-block">
+		</ul>
+		<!-- End of Sidebar -->
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<!-- Topbar -->
+				<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+					<!-- Sidebar Toggle (Topbar) -->
+					<button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+						<i class="fa fa-bars"></i>
+					</button>
+
+
+					<!-- Topbar Navbar -->
+					<ul class="navbar-nav ml-auto">
+
+						<!-- Nav Item - Search Dropdown (Visible Only XS) -->
+						<li class="nav-item dropdown no-arrow d-sm-none">
+							<a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="fas fa-search fa-fw"></i>
+							</a>
+							<!-- Dropdown - Messages -->
+							<div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+								<form class="form-inline mr-auto w-100 navbar-search">
+									<div class="input-group">
+										<input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+										<div class="input-group-append">
+											<button class="btn btn-primary" type="button">
+												<i class="fas fa-search fa-sm"></i>
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</li>
+
+						<!-- Nav Item - Alerts -->
+						<li class="nav-item dropdown no-arrow mx-1">
+							<a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="fas fa-bell fa-fw"></i>
+								<!-- Counter - Alerts -->
+								<!-- <span class="badge badge-danger badge-counter">3+</span> -->
+							</a>
+						</li>
+
+						<!-- Nav Item - Messages -->
+						<li class="nav-item dropdown no-arrow mx-1">
+							<a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="fa-solid fa-comment"></i>
+								<!-- Counter - Messages -->
+								<!-- <span class="badge badge-danger badge-counter">7</span> -->
+							</a>
+						</li>
+
+						<div class="topbar-divider d-none d-sm-block"></div>
+
+						<!-- Nav Item - User Information -->
+						<li class="nav-item dropdown no-arrow">
+							<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<span class="mr-2 d-none d-lg-inline text-gray-600 small">
+									<b>윤수빈</b>
+								</span>
+								<span class="mr-2 d-none d-lg-inline text-gray-600 small">학생</span>
+								<img class="img-profile rounded-circle" src="../../../../../resources/common/image/profile2.png">
+							</a>
+							<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
+								<a class="dropdown-item" href="../common/classMemberView.html">
+									<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;&nbsp;클래스 정보
+								</a>
+								<a class="dropdown-item" href="../../classList_student.html">
+									<i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;&nbsp;내 클래스
+								</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="../../../index/oneschool/index.html">
+									<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;&nbsp;로그아웃
+								</a>
+							</div>
+						</li>
+
+					</ul>
+
+				</nav>
+
+				<div class="container-fluid">
+					<div class="row justify-content-center" id="context">
+						<div class="col-md-6">
+							<div class="container_title shadow">
+								<!-- 학습 진도 헤더 -->
+								<div class="header">학습진도</div>
+								<div class="body">내 학습량을 확인하세요.</div>
+							</div>
+
+							<!-- 동영상 강의 컨테이너 -->
+							<div class="container_base_wrapper shadow">
+								<div class="container_base">
+									<div class="video">
+										<!-- 동영상 강의 헤더  -->
+										<div class="header">
+											<span>동영상 강의 전체</span>
+											<div class="progress">
+												<div class="progress-bar" style="width: 50%" role="progressbar">50%</div>
+											</div>
+											<hr>
+										</div>
+										<!-- 동영상 강의 본문 -->
+										<div class="body">
+											<div>
+												<span>강의 1</span>
+
+												<div class="progress">
+													<div class="progress-bar bg-success" style="width: 100%" role="progressbar" aria-valuemin="0" aria-valuemax="100">100%</div>
+												</div>
+
+												<span class="badge bg-primary">시청완료</span>
+											</div>
+
+											<div>
+												<!--  개별 강의 -->
+												<span>강의 2</span>
+
+												<div class="progress">
+													<div class="progress-bar bg-warning" style="width: 40%" role="progressbar" aria-valuemin="0" aria-valuemax="100">40%</div>
+												</div>
+
+												<span class="badge bg-warning">미완료</span>
+											</div>
+											<div>
+												<!--  개별 강의 -->
+												<div>강의 3</div>
+
+												<div class="progress">
+													<div class="progress-bar bg-danger" style="width: 0%" role="progressbar" aria-valuemin="0" aria-valuemax="100">0%</div>
+												</div>
+
+												<span class="badge bg-danger">미시청</span>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<!-- 과제 컨테이너 -->
+								<div class="container_base">
+									<div class="homework">
+										<div class="header">
+											<span>과제</span>
+
+											<div class="progress">
+												<div class="progress-bar" style="width: 33%" role="progressbar">33%</div>
+											</div>
+
+											<hr>
+										</div>
+
+										<!--과제 본문  -->
+										<div class="body">
+											<div>
+												<span>과제 1</span>
+												<span>50/100</span>
+												<span class="badge bg-primary">제출완료</span>
+											</div>
+											<div>
+												<span>과제 2</span>
+												<span></span>
+												<span class="badge bg-danger">미제출</span>
+											</div>
+
+											<div>
+												<!-- 개별 과제  -->
+												<span>과제 3</span>
+												<span></span>
+												<span class="badge bg-warning">미채점</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<footer class="sticky-footer bg-white mt-5">
+					<div class="container my-auto">
+						<div class="copyright text-center my-auto">
+							<span>Copyright &copy; CLASSING 2021</span>
+						</div>
+					</div>
+				</footer>
+			</div>
+		</div>
+	</div>
+
+
+		<script src="../../../../../resources/common/vendor/jquery/jquery.min.js"></script>
+	<script src="../../../../../resources/common/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+	<script src="../../../../../resources/common/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+	<script src="../../../../../resources/common/js/sb-admin-2.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+			<script>
+			$(".post_title").click(function() {
+				location.href = "../common/classPostView.html";
+			});
+			$(".leftbarProfile").click(function() {
+				location.href = "../common/classMain.html"
+			});
+		</script>
+</body>
+</html>

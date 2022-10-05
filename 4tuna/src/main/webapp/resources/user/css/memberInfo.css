@@ -1,0 +1,78 @@
+body{
+		background-color: #F6F9F7;
+	}
+	container{
+		background-color: white;
+	}
+	#main{
+		width: 900px;
+	}
+ 	.col-md-9{
+		background-color: white;
+		padding: 20px;
+		border-radius: 8px;
+	} 
+	#title{
+		font-weight: bold;
+		color: #00C896;
+		font-size: 30px;
+	}
+	#sub{
+		font-size: 18px;
+		font-weight: bold;
+		margin-left: 10px;
+	}
+	p {
+		word-wrap: break-word;
+		font-size: 15px;
+	}
+	.btn-group{
+		font-size: 15px;
+		padding-top: 15px; 
+		padding-bottom: 15px;
+		color: #c8c8c8;
+		border: 1px solid #c8c8c8;
+		background-color: white;
+	}
+	#btn-nele{
+		font-size: 15px;
+		padding-top: 15px; 
+		padding-bottom: 15px;
+		color: red;
+		float: left;
+	}
+	#btn-edit{
+		font-size: 15px;
+		padding-top: 15px; 
+		padding-bottom: 15px;
+		color: #1E82CD;
+		float: right;
+	}
+	#btn-back{
+		font-size: 15px;
+		padding-top: 15px; 
+		padding-bottom: 15px;
+		float: left;
+	}
+	#btn-group:hover{
+		color: white;
+	}
+	#btn-nele:hover{
+		color: white;
+	}
+	#btn-back:hover{
+		color: white;
+	}
+	#btn-edit:hover{
+		color: white;
+	}
+	label{
+		font-size: 14px;
+		color: #787878;
+		font-weight: bold;
+	}
+	#here{
+		font-weight: bold;
+		font-size: 18px;
+		color: #787878;
+	}

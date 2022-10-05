@@ -1,0 +1,1 @@
+select ctcmName as 'name in class', (select ifcdName from infrCode where ctcmRoleCd = ifcdSeq ) as 'role',regDateTime as registeredAt from ctClassMember where ctcsSeq = 1;

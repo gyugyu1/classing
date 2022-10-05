@@ -1,0 +1,64 @@
+
+	body{
+		background-color: #F6F9F7;
+ 		margin: auto;
+		vertical-align: middle; 
+	}
+	.row{
+		margin-top: 300px;
+	}
+ 	.my-wrap{
+ 		width: 1000px;
+		vertical-align: middle;
+	} 
+
+	.btn-submit{
+		font-size: 20px;
+		border: 1px solid #00C896;
+		height: 60px;
+		color: #00C896;
+		background-color: white;
+		margin-top: 2px;
+	}
+	.btn-facebook{
+		font-size: 20px;
+		border: 1px solid #3b5998;
+		height: 60px;
+		color: #3b5998;
+		background-color: white;
+		margin-top: 2px;
+	}
+	.btn-submit:hover,
+	.btn-submit:active,
+	.btn-submit:visited,
+	.btn-submit:focus{
+		background-color :#00C896;
+		color: #ffffff;
+	}
+	.btn-facebook:hover,
+	.btn-facebook:active,
+	.btn-facebook:visited,
+	.btn-facebook:focus {
+	    background-color: #3b5998;
+	    border-color: #3b5998;
+	    color: white;
+	}
+	a:Link,
+	a:hover,
+	a:active,
+	a:visited,
+	a:focus{
+		color: gray;
+		text-decoration: underline;
+	}
+	.form-control,
+	.form-select,
+	.btn-certification{
+		font-size: 13px;
+		height: 50px;
+	}	
+	p{
+		font-size: 23px;
+		font-weight: bold;
+		color: gray;
+	}

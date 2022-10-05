@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cacao.classting.member.MemberMpp">
+
+	<resultMap id="resultMapObj"
+		type="com.cacao.classting.member.Member"></resultMap>
+
+	<select id="selectOne" resultMap="resultMapObj">
+		select
+			a.mmSeq
+			,a.mmAdminNy
+			,a.mmDormacyNy
+			,a.mmTeacherNy
+			,a.mmGradeCd
+			,a.mmName
+			,a.mmId
+			,a.mmPassword
+			,a.mmPhoneNumber
+			,a.mmGenderCd
+			,a.mmDob
+			,a.mmMemberEmail
+			,a.mmTypeOfLoginCd
+			,a.mmTermsOfserviceNy
+			,a.mmEventNotificationNy
+			,a.mmPersonalInfoNy
+			,a.mmAlarmInvitationNy
+			,a.mmAlarmReplyNy
+			,a.mmDelNy
+			,a.mmDesc
+			,a.modDateTime
+			,a.modDateTimeSvr
+			,a.regDateTime
+			,a.regDateTimeSvr
+			,b.path
+			,b.uuidName
+		FROM member a
+			LEFT JOIN ctMemberUploaded b on b.pseq = a.mmSeq
+		WHERE 1=1
+			AND mmSeq = #{mmSeq}
+	</select>
+
+	<insert id="insert" parameterType="HashMap">
+		INSERT INTO member(
+			mmAdminNy
+			,mmDormacyNy
+			,mmTeacherNy
+			,mmGradeCd
+			,mmName
+			,mmId
+			,mmPassword
+			,mmPhoneNumber
+			,mmGenderCd
+			,mmDob
+			,mmMemberEmail
+			,mmTypeOfLoginCd
+			,mmTermsOfserviceNy
+			,mmEventNotificationNy
+			,mmPersonalInfoNy
+			,mmAlarmInvitationNy
+			,mmAlarmReplyNy
+			,mmDelNy
+			,modDateTime
+			,modDateTimeSvr
+			,regDateTime
+			,regDateTimeSvr
+			,mmProfile
+		) VALUES (
+			0
+			,0
+			,#{mmTeacherNy}
+			,#{mmGradeCd}
+			,#{mmName}
+			,#{mmId}
+			,#{mmPassword}
+			,#{mmPhoneNumber}
+			,#{mmGenderCd}
+			,#{mmDob}
+			,#{mmMemberEmail}
+			,#{mmTypeOfLoginCd}
+			,#{mmTermsOfserviceNy}
+			,#{mmEventNotificationNy}
+			,#{mmPersonalInfoNy}
+			,#{mmAlarmInvitationNy}
+			,#{mmAlarmReplyNy}
+			,0
+			,#{modDateTime}
+			,#{modDateTimeSvr}
+			,#{regDateTime}
+			,#{regDateTimeSvr}
+			,#{mmProfile}
+		)
+		<selectKey resultType="String" keyProperty="mmSeq"
+			order="AFTER">
+			SELECT last_insert_id()
+		</selectKey>
+	</insert>
+	
+	<update id="update">
+		UPDATE member SET
+			mmTeacherNy = #{mmTeacherNy}
+			,mmGradeCd = #{mmGradeCd}
+			,mmName = #{mmName}
+			,mmId = #{mmId}
+			,mmPassword = #{mmPassword}
+			,mmPhoneNumber = #{mmPhoneNumber}
+			,mmDob = #{mmDob}
+			,mmMemberEmail = #{mmMemberEmail}
+			,mmDesc = #{mmDesc}
+			,mmEventNotificationNy = #{mmEventNotificationNy}
+			,mmAlarmInvitationNy = #{mmAlarmInvitationNy}
+			,mmAlarmReplyNy = #{mmAlarmReplyNy}
+			,modDateTime = #{modDateTime}
+			,modDateTimeSvr = #{modDateTimeSvr}
+		WHERE 1=1
+			AND mmSeq=#{mmSeq}
+	</update>
+
+	<select id="selectOneLogin" resultMap="resultMapObj">
+		SELECT
+			a.mmSeq
+			,a.mmId
+			,a.mmName
+			,a.mmPassword
+			,a.mmProfile
+			,a.mmTeacherNy
+			,b.uuidName
+			,b.path
+		FROM member a
+			LEFT JOIN ctMemberUploaded b ON b.pseq = a.mmSeq
+		WHERE 1=1
+			AND a.mmId = #{mmId}
+			AND a.mmPassword = #{mmPassword}
+	</select>
+	
+	<select id="selectOneId" resultMap="resultMapObj">
+		select
+			mmSeq
+			,mmName
+			,mmId
+			,mmPhoneNumber
+			,mmDelNy
+		FROM member
+		WHERE 1=1
+			AND mmName = #{mmName}
+			AND mmPhoneNumber = #{mmPhoneNumber}
+			<!-- AND mmDelNy = 0 -->
+	</select>
+
+	<select id="selectListClass" resultMap="resultMapObj">
+		select
+			a.ctcmSeq
+			,a.ctcmName
+			,a.ctcmDelNy
+			,b.ctcsYear
+			,a.mmSeq
+			,a.ctcsSeq
+			,b.ctcsName
+			,b.ctcsDelNy
+		FROM ctClassMember a
+			LEFT JOIN ctClass b on b.ctcsSeq = a.ctcsSeq
+		WHERE 1=1
+			AND mmSeq = #{mmSeq}
+			AND ctcsDelNy = 0
+			AND ctcmDelNy = 0
+	</select>
+	
+	<select id="selectListId" resultMap="resultMapObj">
+		select
+			mmSeq
+			,mmName
+			,mmId
+			,mmPhoneNumber
+			,mmDelNy
+		FROM member
+		WHERE 1=1
+			AND mmName = #{mmName}
+			AND mmPhoneNumber = #{mmPhoneNumber}
+			AND mmDelNy = 0
+	</select>
+	<select id="selectListPassword" resultMap="resultMapObj">
+		select
+			mmSeq
+			,mmName
+			,mmId
+			,mmPassword
+			,mmPhoneNumber
+			,mmDelNy
+		FROM member
+		WHERE 1=1
+			AND mmName = #{mmName}
+			AND mmPhoneNumber = #{mmPhoneNumber}
+			AND mmId = #{mmId}
+			AND mmDelNy = 0
+	</select>
+	<!-- 회원 이미지 -->
+	<insert id="insertUploaded">
+		INSERT INTO ${tableName} (
+			type
+			,defaultNy
+			,sort
+			,originalName
+			,uuidName
+			,ext
+			,size
+			,delNy
+			,path
+			,pseq
+		) VALUES (
+			#{type}
+			,#{defaultNy}
+			,#{sort}
+			,#{originalName}
+			,#{uuidName}
+			,#{ext}
+			,#{size}
+			,#{delNy}
+			,#{path}
+			,#{pseq}
+		)
+	</insert>
+	
+	<update id="updateUploaded">
+		UPDATE ${tableName} SET
+			type = #{type}
+			,defaultNy = #{defaultNy}
+			,sort = #{sort}
+			,originalName = #{originalName}
+			,uuidName = #{uuidName}
+			,ext = #{ext}
+			,size = #{size}
+			,path = #{path}
+			,delNy = #{delNy}
+		WHERE 1=1
+			AND pseq = #{pseq}
+			AND type = #{type}
+	</update>
+	
+	<select id="selectListMemberUploaded" resultMap="resultMapObj">
+		SELECT
+			seq
+			, type
+			, defaultNy
+			, sort
+			, originalName
+			, uuidName
+			, ext
+			, size
+			, delNy
+			, pseq
+			, path
+		FROM ctMemberUploaded
+		WHERE 1=1
+			AND pseq = #{mmSeq}
+	</select>
+	
+	<!-- class생성 -->
+	<insert id="insertClass">
+		INSERT INTO ctClass(
+			ctcsName
+			,ctcsYear
+			,ctcsGradeCd
+			,ctcsDesc
+			,ctcsCode
+			,ctcsDelNy
+			,modDateTime
+			,modDateTimeSvr
+			,regDateTime
+			,regDateTimeSvr
+		) VALUES (
+			#{ctcsName}
+			,#{ctcsYear}
+			,#{ctcsGradeCd}
+			,#{ctcsDesc}
+			,#{ctcsCode}
+			,0
+			,#{modDateTime}
+			,#{modDateTimeSvr}
+			,#{regDateTime}
+			,#{regDateTimeSvr}
+		)
+		<selectKey resultType="String" keyProperty="ctcsSeq" order="AFTER">
+			SELECT last_insert_id()
+		</selectKey>
+	</insert>
+
+	<insert id="insertClassMember">
+		INSERT INTO ctClassMember(
+			ctcmName
+			,ctcmTeacherNy
+			,ctcmAlarmReplyNy
+			,ctcmAlarmReactionNy
+			,ctcmDelNy
+			,mmSeq
+			,ctcsSeq
+		) VALUES (
+			#{ctcmName}
+			,1
+			,0
+			,0
+			,0
+			,#{mmSeq}
+			,#{ctcsSeq}
+		)
+		<selectKey resultType="String" keyProperty="ctcsSeq" order="AFTER">
+			SELECT last_insert_id()
+		</selectKey>
+	</insert>
+	
+	<update id="updateClassMember">
+		UPDATE ctClassMember SET
+			ctcmName = #{ctcmName}
+		WHERE 1=1
+			AND ctcmSeq = #{ctcmSeq}	
+	</update>
+	
+	<select id="selectOneClassMember" resultMap="resultMapObj">
+		SELECT
+			ctcmSeq
+			,ctcmName
+		FROM
+			ctClassMember
+		WHERE 1=1
+			AND mmSeq = #{mmSeq}
+			AND ctcsSeq = #{ctcsSeq}
+	</select>
+	<select id="selectOneClass" resultMap="resultMapObj">
+		SELECT
+			ctcsSeq
+			,ctcsName
+		FROM
+			ctClass
+		WHERE 1=1
+			AND ctcsSeq = #{ctcsSeq}
+	</select>
+
+	<!-- 코드로 클래스 찾기 -->
+	<select id="selectOneClassCode" resultMap="resultMapObj">
+		SELECT
+			ctcsSeq
+			,ctcsCode
+			,ctcsName
+		FROM ctClass
+		WHERE 1=1
+			AND ctcsCode = #{ctcsCode}
+	</select>
+
+	<!-- 게시물 리스트 -->
+	<select id="selectListNotice" resultMap="resultMapObj">
+		SELECT
+			a.ctptSeq
+			,a.ctptTitle
+			,a.ctptContent
+			,a.regDateTime
+			,b.ctcsSeq
+			,d.mmSeq
+		FROM ctPost a
+			LEFT JOIN ctBoard b on b.ctboSeq = a.ctboSeq
+			LEFT JOIN ctClass c on c.ctcsSeq = b.ctcsSeq
+			LEFT JOIN ctClassMember d on d.ctcsSeq = c.ctcsSeq
+		WHERE 1=1
+			AND b.ctboTypeCd = 25
+			<!-- AND a.ctcsSeq = #{ctcsSeq} -->
+	</select>
+
+	<!-- admin -->
+	<sql id="selectCommonMember">
+		FROM
+		member
+		WHERE 1=1
+		<choose>
+			<when test="shMmTeacherNy ==1">AND mmTeacherNy = 1</when>
+			<when test="shMmTeacherNy ==2">AND mmTeacherNy = 0</when>
+		</choose>
+		<choose>
+			<when test="shMmDelNy ==1">AND mmDelNy = 1</when>
+			<when test="shMmDelNy ==2">AND mmDelNy = 0</when>
+		</choose>
+		<if test="shMmName != null and !shMmName.equals('')"> AND mmName LIKE concat('%',#{shMmName},'%')</if>
+		<choose>
+			<when test="shOption ==1">AND mmName LIKE concat('%',#{shValue},'%')</when>
+			<when test="shOption ==2">AND mmId LIKE concat('%',#{shValue},'%')</when>
+		</choose>
+		<choose>
+			<when test="shOptionDate == 1">AND regDateTime BETWEEN #{shDateStart} AND
+				#{shDateEnd}</when>
+			<when test="shOptionDate == 2">AND mmDob BETWEEN #{shDateStart} AND #{shDateEnd}
+			</when>
+		</choose>
+
+	</sql>
+	<select id="selectListMember" resultMap="resultMapObj">
+		SELECT
+			mmSeq
+			,mmName
+			,mmTeacherNy
+			,mmSchoolCd
+			,mmDob
+			,RegDatetime
+			,mmDelNy
+		<include refid="selectCommonMember" />
+		limit #{startRnumForMysql},#{rowNumToShow}
+
+	</select>
+
+	<update id="deleteMember">
+		UPDATE member SET
+			mmDelNy = 1
+		WHERE 1 = 1
+			AND mmSeq = #{mmSeq}
+	</update>
+
+	<update id="deleteMemberMulti">
+		UPDATE
+			member
+		SET
+			mmDelny = 1
+		WHERE 1=1
+			AND mmSeq = #{mmSeq}
+	</update>
+
+	<insert id="insertMember">
+		INSERT INTO member (
+			mmName
+			,mmSchoolCd
+			,mmGradeCd
+			,mmDesc
+			,mmGenderCd
+			,mmDob
+			,mmId
+			,mmPassword
+			,mmMemberEmail
+			,mmPhoneNumber
+			,mmTeacherNy
+			,mmAlarmInvitationNy
+			,mmEventNotificationNy
+			,mmAlarmReplyNy
+			,mmDormacyNy
+			,mmDelNy
+			,modDateTime
+			,modDateTimeSvr
+			,regDateTime
+			,regDateTimeSvr
+		) values (
+			#{mmName}
+			,#{mmSchoolCd}
+			,#{mmGradeCd}
+			,#{mmDesc}
+			,#{mmGenderCd}
+			,#{mmDob}
+			,#{mmId}
+			,#{mmPassword}
+			,#{mmMemberEmail}
+			,#{mmPhoneNumber}
+			,#{mmTeacherNy}
+			,#{mmAlarmInvitationNy}
+			,#{mmEventNotificationNy}
+			,#{mmAlarmReplyNy}
+			,0
+			,0
+			,#{modDateTime}
+			,#{modDateTimeSvr}
+			,#{regDateTime}
+			,#{regDateTimeSvr}
+		)
+		<!-- <selectKey resultType="String" keyProperty="mmSeq" order="AFTER"> 
+			SELECT last_insert_id() </selectKey> -->
+	</insert>
+
+
+	<update id="updateMember">
+		UPDATE member SET
+			mmTeacherNy = #{mmTeacherNy}
+			,mmGradeCd = #{mmGradeCd}
+			,mmName = #{mmName}
+			,mmId = #{mmId}
+			,mmPassword = #{mmPassword}
+			,mmPhoneNumber = #{mmPhoneNumber}
+			,mmDob = #{mmDob}
+			,mmMemberEmail = #{mmMemberEmail}
+			,mmDesc = #{mmDesc}
+			,mmEventNotificationNy = #{mmEventNotificationNy}
+			,mmAlarmInvitationNy = #{mmAlarmInvitationNy}
+			,mmAlarmReplyNy = #{mmAlarmReplyNy}
+			,modDateTime = #{modDateTime}
+			,modDateTimeSvr = #{modDateTimeSvr}
+		WHERE 1=1
+			AND mmSeq=#{mmSeq}
+	</update>
+
+
+
+	<select id="selectOneMember" resultMap="resultMapObj">
+		select
+			mmName
+			,mmSchoolCd
+			,mmGradeCd
+			,mmDesc
+			,mmGenderCd
+			,mmDob
+			,mmId
+			,mmPassword
+			,mmMemberEmail
+			,mmPhoneNumber
+			,mmTeacherNy
+			,mmTermsOfserviceNy
+			,mmEventNotificationNy
+			,mmPersonalInfoNy
+			,mmDelNy
+		from member
+		where 1=1
+			and mmSeq = #{mmSeq}
+	</select>
+	
+	<select id="selectOneCountMember" resultType="Integer">
+		SELECT
+			count(*)
+		<include refid="selectCommonMember" />
+	</select>
+</mapper>

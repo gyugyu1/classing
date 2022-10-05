@@ -1,0 +1,1 @@
+ select ctBoTypeCd,ifCdName from ctBoard left join infrCode on ctboTypeCd = ifcdSeq ;

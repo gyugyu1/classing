@@ -1,0 +1,1 @@
+select cc.ctcsName from ctClassMember cm left join ctClass cc on cm.ctcsSeq = cc.ctcsSeq  where cm.mmSeq = 1;

@@ -1,0 +1,1 @@
+select cthwTitle,ctHwData,cthwDesc,cthwEndDate,cthwmaxScore from ctHomework where ctcsSeq = 1;

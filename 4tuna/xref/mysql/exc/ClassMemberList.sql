@@ -1,0 +1,1 @@
+select ctcmName,  ctcmTeacherNy from ctClassMember where ctcsSeq =1;

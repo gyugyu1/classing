@@ -1,0 +1,964 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cacao.classting.classroom.ClassRoomMpp">
+
+	<resultMap id="resultMapObj"
+		type="com.cacao.classting.classroom.ClassRoom"></resultMap>
+	<sql id="selectCommonClass">
+		FROM
+		ctClass
+		WHERE 1=1
+		<choose>
+			<when test="shCtcsDelNy ==1">AND ctcsDelNy = 1</when>
+			<when test="shCtcsDelNy ==2">AND ctcsDelNy = 0</when>
+		</choose>
+		<if test="shCtcsName != null and !shCtcsName.equals('')"> AND ctcsName LIKE concat('%',#{shCtcsName},'%')</if>
+		<choose>
+			<when test="shOption ==1">AND ctcsName LIKE concat('%',#{shValue},'%')</when>
+			<when test="shOption ==2">AND ctcsBelongto LIKE concat('%',#{shValue},'%')
+			</when>
+		</choose>
+		<choose>
+			<when test="shOptionDate == 1">AND regDateTime BETWEEN #{shDateStart} AND
+				#{shDateEnd}</when>
+			<when test="shOptionDate == 2">AND modDateTime BETWEEN #{shDateStart} AND
+				#{shDateEnd}</when>
+		</choose>
+	</sql>
+
+
+	<select id="selectOneMemberClass" resultMap="resultMapObj">
+		SELECT
+		ctcmName
+		,ctcmTeacherNy
+		,ctcmAlarmReplyNy
+		,ctcmAlarmReactionNy
+		FROM
+		ctClassMember
+		WHERE 1=1 AND ctcmSeq = #{ctcmSeq}
+	</select>
+
+
+	<select id="selectOneCount" resultType="Integer">
+		SELECT
+		count(*)
+		<include refid="selectCommonClass" />
+	</select>
+
+
+	<select id="selectOneClassMemberUploaded"
+		resultMap="resultMapObj">
+		SELECT
+		path
+		,uuidName
+		FROM
+		ctClassMemberUploaded
+		where 1=1 AND pseq = #{ctcmSeq}
+	</select>
+
+
+	<update id="updateClass">
+		UPDATE
+		ctClassMember
+		SET
+		ctcmName = #{ctcmName}
+		,ctcmAlarmReplyNy = #{ctcmAlarmReplyNy}
+		,ctcmAlarmReactionNy = #{ctcmAlarmReactionNy}
+		WHERE 1=1
+		AND ctcmSeq = #{ctcmSeq}
+	</update>
+
+
+	<update id="updateUploaded">
+		UPDATE ${tableName}
+		SET
+		type = #{type}
+		,defaultNy = #{defaultNy}
+		,sort = #{sort}
+		,originalName = #{originalName}
+		,uuidName = #{uuidName}
+		,path = #{path}
+		,delNy = #{delNy}
+		WHERE 1=1
+		AND pseq = #{pseq}
+	</update>
+
+
+	<update id="deleteClassMember">
+		UPDATE
+		ctClassMember
+		SET
+		ctcmDelNy = 1
+		WHERE 1=1
+		AND ctcsSeq = #{ctcsSeq}
+		AND ctcmSeq = #{ctcmSeq}
+	</update>
+
+
+	<delete id="deleteMemberForcely">
+		DELETE FROM
+		ctClassMember
+		WHERE 1=1
+		AND ctcmSeq = #{ctcmSeq}
+	</delete>
+
+
+	<select id="selectListClass" resultMap="resultMapObj">
+		SELECT
+		ctcsSeq
+		,ctcsName
+		,ctcsBelongto
+		,ctcsCode
+		,regDateTime
+		,ctcsDelNy
+		<include refid="selectCommonClass" />
+		limit #{startRnumForMysql},#{rowNumToShow}
+	</select>
+
+
+	<select id="selectOneClass" resultMap="resultMapObj">
+		SELECT
+		a.ctcsSeq
+		,a.ctcsName
+		,a.ctcsBelongto
+		,a.ctcsDesc
+		,a.regDateTime
+		,a.ctcsCode
+		FROM ctClass a
+		WHERE 1=1
+		AND a.ctcsSeq = #{ctcsSeq}
+	</select>
+
+
+	<update id="deleteClass">
+		UPDATE
+		ctClass
+		SET
+		ctcsDelny = 1
+		WHERE 1=1
+		AND ctcsSeq = #{ctcsSeq}
+	</update>
+
+
+	<update id="deleteClassMulti">
+		UPDATE
+		ctClass
+		SET
+		ctcsDelny = 1
+		WHERE 1=1
+		AND ctcsSeq = #{ctcsSeq}
+	</update>
+
+
+	<!-- 클래스내 정보 불러오기! -->
+	<select id="selectOneSidebar" resultMap="resultMapObj">
+		SELECT
+		a.ctcsSeq
+		,a.ctcsYear
+		,a.ctcsName
+		,b.ctcmSeq
+		,b.ctcmName
+		,b.ctcmTeacherNy
+		,b.ctcmProfile
+		,c.uuidName
+		,c.path
+		FROM ctClass a
+		LEFT JOIN ctClassMember b on b.ctcsSeq = a.ctcsSeq
+		LEFT JOIN ctClassMemberUploaded c on c.pseq = b.ctcmSeq
+		WHERE 1=1
+		AND b.ctcsSeq = #{ctcsSeq}
+		AND b.mmSeq = #{mmSeq}
+	</select>
+
+
+	<!-- 구성원 초대하기 -->
+	<select id="selectOneClassInfo" resultMap="resultMapObj">
+		SELECT
+		ctcsCode
+		,ctcsName
+		FROM ctClass
+		WHERE 1=1
+		AND ctcsSeq = #{ctcsSeq}
+	</select>
+
+
+	<!-- 게시물 리스트 -->
+	<select id="selectListPost" resultMap="resultMapObj">
+		 <![CDATA[
+		SELECT
+			a.ctptSeq
+			,a.ctptTitle
+			,a.ctptWriter
+			,a.ctptContent
+			,a.regDateTime
+			,a.ctptNoticeNy
+			,a.ctptView
+			,b.ctboTypeCd
+			,b.ctboName
+			 ,(SELECT count(*) from ctLike where ctptSeq = a.ctptSeq) as likeNumber
+			 ,(SELECT count(case when ctrpDelNy = 0 then 1 end) from ctReply where ctptSeq = a.ctptSeq ) as commentNumber
+			
+		FROM
+			ctPost a
+		LEFT JOIN ctBoard b on b.ctboSeq = a.ctboSeq
+		LEFT JOIN ctLike c on c.ctptSeq = a.ctptSeq
+		LEFT JOIN ctReply d on d.ctptSeq = a.ctptSeq
+		WHERE 1=1
+			AND b.ctcsSeq = #{ctcsSeq}]]>
+			<if test = "ctboSeq != null and ctboSeq != ''">
+				and b.ctboSeq =#{ctboSeq}
+			</if>
+			<![CDATA[
+		GROUP BY a.ctptSeq
+		ORDER BY a.regDateTime DESC
+		]]>
+	</select>
+
+
+	<!-- 게시물 보기 -->
+	<select id="selectOneClassPost" resultMap="resultMapObj">
+		SELECT
+		ctptSeq
+		,ctptTitle
+		,ctptWriter
+		,ctptContent
+		,regDateTime
+		,ctboSeq
+		,ctptView
+		FROM ctPost
+		WHERE 1=1
+		AND ctptSeq = #{ctptSeq}
+	</select>
+
+
+	<!-- 게시글 등록 -->
+	<insert id="insertPost">
+		INSERT INTO ctPost(
+		ctptSeq
+		,ctptTitle
+		,ctptWriter
+		,ctptContent
+		,regDateTime
+		,ctboSeq
+		,ctptDelNy
+		,ctptNoticeNy
+		) VALUES (
+		#{ctptSeq}
+		,#{ctptTitle}
+		,#{ctptWriter}
+		,#{ctptContent}
+		,now()
+		,#{ctboSeq}
+		,0
+		,#{ctptNoticeNy}
+		)
+	</insert>
+
+
+	<!-- 게시글 수정 -->
+	<update id="updatePost">
+		UPDATE ctPost (
+		ctptSeq
+		,ctptTitle
+		,ctptWriter
+		,ctptContent
+		,regDateTime
+		,ctboSeq
+		,ctptDelNy
+		) VALUES (
+		#{ctptSeq}
+		,#{ctptTitle}
+		,#{ctptWriter}
+		,#{ctptContent}
+		,now()
+		,#{ctboSeq}
+		,0
+		)
+	</update>
+
+	<delete id="deletePost">
+		delete from ctpost
+		where ctptSeq = #{ctptSeq};
+	</delete>
+	<!-- 과제 리스트 -->
+	<select id="selectListHomework" resultMap="resultMapObj">
+		SELECT
+		a.cthpSeq
+		,a.cthpTitle
+		,a.cthpWriter
+		,a.cthpDesc
+		,a.cthpData
+		,a.cthpEndDateTime
+		,a.cthpUseNy
+		,a.cthpDelNy
+		,a.regDateTime
+		,b.ctcsSeq
+		FROM ctHomeworkPost a
+		LEFT JOIN ctClass b on b.ctcsSeq = a.ctcsSeq
+		WHERE 1=1
+		AND b.ctcsSeq = #{ctcsSeq}
+		ORDER BY a.cthpSeq ASC
+	</select>
+
+
+	<!-- 과제 보기 -->
+	<select id="selectOneClassHomework" resultMap="resultMapObj">
+		SELECT
+		cthpSeq
+		,cthpTitle
+		,cthpWriter
+		,cthpDesc
+		,cthpData
+		,cthpEndDateTime
+		,cthpUseNy
+		,cthpDelNy
+		,regDateTime
+		,ctcsSeq
+		FROM ctHomeworkPost
+		WHERE 1=1
+		AND ctcsSeq = #{ctcsSeq}
+		AND cthpSeq = #{cthpSeq}
+	</select>
+
+
+	<!-- 과제제출 리스트 -->
+	<select id="selectListHomeworkSubmit" resultMap="resultMapObj">
+		SELECT
+		a.cthsSeq
+		,a.cthsTitle
+		,a.cthsWriter
+		,a.cthsDesc
+		,a.cthsData
+		,a.cthsScore
+		,a.cthsUseNy
+		,a.cthsDelNy
+		,a.cthpSeq
+		,a.regDateTime
+		<!-- ,b.ctcsSeq -->
+		FROM
+		ctHomeworkSubmit a
+		<!-- LEFT JOIN ctHomeworkPost b on b.cthpSeq = a.cthpSeq -->
+		WHERE 1=1
+		AND a.cthpSeq = #{cthpSeq}
+		<!-- AND b.ctcsSeq = #{ctcsSeq} -->
+	</select>
+
+
+	<!-- 학생이 제출한 과제 -->
+	<select id="homeworkSubmit" resultMap="resultMapObj">
+		SELECT
+		cthpSeq
+		,cthsSeq
+		,ctcmName
+		,cthsWriter
+		,cthsScore
+		FROM ctHomeworkSubmit a
+		LEFT JOIN ctClassMember b on a.cthsWriter = b.ctcmseq
+		WHERE ctcsSeq =
+		#{ctcsSeq}
+		<!-- and cthsWriter = #{cthsWriter} -->
+	</select>
+
+
+	<select id="homeworkWriter" resultMap="resultMapObj">
+		SELECT distinct
+		a.cthsWriter
+		,c.ctcmName
+		FROM classing.ctHomeworkSubmit a
+		LEFT JOIN ctHomeworkPost b on a.cthpSeq = b.cthpSeq
+		LEFT JOIN ctClassMember c ona.cthsWriter = c.ctcmSeq
+		WHERE b.ctcsSeq =
+		${ctcsSeq};
+	</select>
+
+
+	<!-- 과제제출(학생) -->
+	<insert id="insertHomeworkSubmit">
+		INSERT INTO ctHomeworkSubmit(
+		cthsTitle
+		,cthsDesc
+		,cthsData
+		,cthsWriter
+		,cthsScore
+		,cthsUseNy
+		,cthsDelNy
+		,regDateTime
+		,modDateTime
+		,cthpSeq
+		) VALUES (
+		#{cthsTitle}
+		,#{cthsDesc}
+		,#{cthsData}
+		,#{cthsWriter}
+		,#{cthsScore}
+		,1
+		,0
+		,#{regDateTime}
+		,#{modDateTime}
+		,#{cthpSeq}
+		<selectKey resultType="String" keyProperty="cthsSeq"
+			order="AFTER">
+			SELECT last_insert_id()
+		</selectKey>
+		)
+	</insert>
+
+
+	<!-- 과제등록(선생님) -->
+	<insert id="insertHomeworkPost">
+		INSERT INTO ctHomeworkPost(
+		cthpTitle
+		,cthpDesc
+		,cthpData
+		,cthpWriter
+		,cthpEndDateTime
+		,cthpUseNy
+		,cthpDelNy
+		,regDateTime
+		,modDateTime
+		,ctcsSeq
+		) VALUES (
+		#{cthpTitle}
+		,#{cthpDesc}
+		,#{cthpData}
+		,#{cthpWriter}
+		<!-- <choose> <when test="cthpEndDateTime.equals('')">,NULL</when> <otherwise>,#{cthpEndDateTime}</otherwise> 
+			</choose> -->
+		,#{cthpEndDateTime}
+		,1
+		,0
+		,#{regDateTime}
+		,#{modDateTime}
+		,#{ctcsSeq}
+		)
+		<selectKey resultType="String" keyProperty="cthpSeq"
+			order="AFTER">
+			SELECT last_insert_id()
+		</selectKey>
+	</insert>
+
+
+	<!-- 과제 점수 update -->
+	<update id="updateHomeworkSubmitScore">
+		UPDATE
+		ctHomeworkSubmit
+		SET
+		cthsScore = #{cthsScore}
+		WHERE 1=1
+		AND cthpSeq = #{cthpSeq}
+		AND cthsSeq = #{cthsSeq}
+	</update>
+
+
+	<!-- 과제제출 보기(선생님->학생것) -->
+	<select id="selectOneHomeworkSubmit" resultMap="resultMapObj">
+		SELECT
+		cthsSeq
+		,cthsTitle
+		,cthsWriter
+		,cthsDesc
+		,cthsData
+		,cthsScore
+		,cthsUseNy
+		,cthsDelNy
+		,regDateTime
+		,cthpSeq
+		FROM
+		ctHomeworkSubmit
+		WHERE 1=1
+		AND cthpSeq = #{cthpSeq}
+		AND cthsSeq = #{cthsSeq}
+	</select>
+
+
+	<!-- 과제제출 보기(학생->본인것) -->
+	<select id="selectOneHomeworkSubmitStudent"
+		resultMap="resultMapObj">
+		SELECT
+		cthsSeq
+		,cthsTitle
+		,cthsWriter
+		,cthsDesc
+		,cthsData
+		,cthsScore
+		,cthsUseNy
+		,cthsDelNy
+		,regDateTime
+		FROM
+		ctHomeworkSubmit
+		WHERE 1=1
+		AND cthpSeq = #{cthpSeq}
+		AND cthsWriter = #{cthsWriter}
+	</select>
+
+
+	<!-- 과제 제출물 수정 -->
+	<update id="updateHomeworkSubmit">
+		UPDATE
+		ctHomeworkSubmit
+		SET
+		cthsTitle = #{cthsTitle}
+		,cthsDesc = #{cthsDesc}
+		WHERE 1=1
+		AND cthsSeq = #{cthsSeq}
+	</update>
+	<!-- 구성원 리스트 -->
+	<select id="selectListClassMember" resultMap="resultMapObj">
+		SELECT
+		a.ctcmSeq
+		,a.ctcmName
+		,a.ctcmTeacherNy
+		,a.ctcsSeq
+		,a.ctcmDelNy
+		,a.ctcmProfile
+		,b.seq
+		,b.path
+		,b.uuidName
+		FROM ctClassMember a
+		LEFT JOIN ctClassMemberUploaded b on b.pseq = a.ctcmSeq
+		WHERE 1=1
+		AND a.ctcmDelNy = 0
+		AND a.ctcsSeq = #{ctcsSeq}
+	</select>
+
+	<!-- 클래스 멤버 개인정보 수정 -->
+	<update id="updateClassMember">
+		UPDATE
+		ctClassMember
+		SET
+		ctcmName = #{ctcmName},
+		ctcmProfile = #{ctcmProfile}
+		WHERE 1=1
+		AND ctcmSeq = #{ctcmSeq}
+		and ctcsSeq = #{ctcsSeq}
+
+	</update>
+
+
+	<!-- 구성원 삭제 (update) -->
+	<update id="updateClassMemberDel">
+		UPDATE
+		ctClassMember
+		SET
+		ctcmDelNy = 1
+		WHERE 1=1
+		AND ctcmSeq = #{ctcmSeq}
+	</update>
+
+
+	<select id="selectListClassPostUrl" resultMap="resultMapObj">
+		SELECT
+		a.originalName
+		,a.regDateTime
+		,a.pseq
+		,a.seq
+		,b.ctptSeq
+		,b.ctptTitle
+		,b.ctptContent
+		,b.ctptWriter
+		,b.ctptView
+		,b.regDateTime
+		,c.ctboTypeCd
+		FROM ctPostUploaded a
+		LEFT JOIN ctPost b on b.ctptSeq = a.pseq
+		LEFT JOIN ctBoard c on c.ctboSeq = b.ctboSeq
+		WHERE 1=1
+		AND c.ctcsSeq =#{ctcsSeq}
+		ORDER BY b.regDateTime desc
+	</select>
+
+
+	<!-- 전체 구성원 중 학생 -->
+	<select id="selectOneMemberCount" resultType="Integer">
+		SELECT
+		count(*)
+		FROM ctClassMember
+		WHERE 1=1
+		AND ctcsSeq = #{ctcsSeq}
+		AND ctcmTeacherNy = 0
+	</select>
+
+
+	<!-- 과제 제출자 수 -->
+	<select id="selectOneSubmitCount" resultType="Integer">
+		SELECT
+		count(*)
+		FROM ctHomeworkSubmit
+		WHERE 1=1
+		AND cthpSeq = #{cthpSeq}
+	</select>
+	<!-- 클래스내 과제 평균점수 -->
+	<select id="scoreAvg" resultMap="resultMapObj">
+		SELECT
+		round(avg(cthsScore),2) as scoreAvg
+		FROM ctHomeworkSubmit a
+		left join ctHomeworkPost b on b.cthpSeq = a.cthpSeq
+		WHERE ctcsSeq = #{ctcsSeq}
+		GROUP BY a.cthpSeq
+		ORDER BY b.cthpSeq ASC
+	</select>
+
+
+	<!-- 예약/임시저장 리스트 --> <!-- 임시저장만 -->
+	<select id="selectListStorage" resultMap="resultMapObj">
+		SELECT
+		a.ctptSeq
+		,a.ctptTitle
+		,a.ctptWriter
+		,a.ctptContent
+		,a.regDateTime
+		,a.ctboSeq
+		,b.ctboTypeCd
+		FROM
+		ctPost a
+		LEFT JOIN ctBoard b on b.ctboSeq = a.ctboSeq
+		LEFT JOIN ctClassMember c on c.ctcmSeq = a.ctptWriter
+		WHERE 1=1
+		AND b.ctcsSeq = #{ctcsSeq}
+	</select>
+
+
+	<!-- 예약/임시저장 리스트 --><!-- 예약만 -->
+	<select id="selectListReserv" resultMap="resultMapObj">
+		SELECT
+		a.ctptSeq
+		,a.ctptTitle
+		,a.ctptWriter
+		,a.ctptContent
+		,a.regDateTime
+		,a.ctboSeq
+		,b.ctboTypeCd
+		FROM
+		ctPost a
+		LEFT JOIN ctBoard b on b.ctboSeq = a.ctboSeq
+		LEFT JOIN ctClassMember c on c.ctcmSeq = a.ctptWriter
+		WHERE 1=1
+		AND b.ctcsSeq = #{ctcsSeq}
+	</select>
+
+
+	<select id="selectOneClassPostUrl" resultMap="resultMapObj">
+		SELECT
+		a.originalName
+		FROM ctPostUploaded a
+		WHERE 1=1
+		AND pseq = #{ctptSeq}
+	</select>
+
+
+	<!-- 동영상 등록 -->
+	<insert id="insertUrl">
+		INSERT INTO ctPostUploaded(
+		seq
+		,originalName
+		,delNy
+		,pseq
+		,regDateTime
+		,modDateTime
+		) VALUES (
+		#{seq}
+		,#{originalName}
+		,0
+		,#{pseq}
+		,#{regDateTime}
+		,#{modDateTime}
+		)
+	</insert>
+
+
+	<!-- 게시물 댓글 리스트 -->
+	<select id="selectListReply" resultMap="resultMapObj">
+		SELECT
+		a.ctrpSeq
+		,a.ctrpContent
+		,a.ctrpWriter
+		,a.ctrpDelNy
+		,a.regDateTime
+		,a.ctptSeq
+		FROM ctReply a
+		LEFT JOIN ctPost b on b.ctptSeq = a.ctptSeq
+		WHERE 1=1
+		AND a.ctptSeq = #{ctptSeq}
+		AND a.ctrpDelNy = 0
+	</select>
+
+
+	<!-- 게시물 댓글 등록 -->
+	<insert id="insertReply">
+		INSERT INTO ctReply(
+		ctrpSeq
+		,ctrpContent
+		,ctrpWriter
+		,ctrpDelNy
+		,regDateTime
+		,ctptSeq
+		) VALUES (
+		#{ctrpSeq}
+		,#{ctrpContent}
+		,#{ctrpWriter}
+		,0
+		,now()
+		,#{ctptSeq}
+		)
+	</insert>
+
+
+	<!-- 게시물 댓글 삭제(update) -->
+	<update id="updateReplyUele">
+		UPDATE ctReply SET
+		ctrpDelNy = 1
+		WHERE 1=1
+		AND ctrpSeq = #{ctrpSeq}
+	</update>
+
+
+	<!-- 과제게시물 댓글 리스트 -->
+	<select id="selectListHomeworkReply" resultMap="resultMapObj">
+		SELECT
+		a.ctrhSeq
+		,a.ctrhContent
+		,a.ctrhWriter
+		,a.ctrhDelNy
+		,a.regDateTime
+		,a.cthpSeq
+		FROM ctReplyHomework a
+		LEFT JOIN ctHomeworkPost b on b.cthpSeq = a.cthpSeq
+		WHERE 1=1
+		AND a.cthpSeq = #{cthpSeq}
+		AND a.ctrhDelNy = 0
+	</select>
+
+
+	<!-- 과제게시물 댓글 등록 -->
+	<insert id="insertHomeworkReply">
+		INSERT INTO ctReplyHomework(
+		ctrhSeq
+		,ctrhContent
+		,ctrhWriter
+		,ctrhDelNy
+		,regDateTime
+		,cthpSeq
+		) VALUES (
+		#{ctrhSeq}
+		,#{ctrhContent}
+		,#{ctrhWriter}
+		,0
+		,#{regDateTime}
+		,#{cthpSeq}
+		)
+	</insert>
+
+
+	<!-- 과제게시물 댓글 삭제(update) -->
+	<update id="updateHomeworkReplyUele">
+		UPDATE ctReplyHomework SET
+		ctrhDelNy = 1
+		WHERE 1=1
+		AND ctrhSeq = #{ctrhSeq}
+	</update>
+
+
+	<!-- 과제제출물 댓글 리스트 -->
+	<select id="selectListHomeworkSubmitReply"
+		resultMap="resultMapObj">
+		SELECT
+		a.ctrsSeq
+		,a.ctrsContent
+		,a.ctrsWriter
+		,a.ctrsDelNy
+		,a.regDateTime
+		,a.cthsSeq
+		FROM ctReplyHomeworkSubmit a
+		LEFT JOIN ctHomeworkSubmit b on b.cthsSeq = a.cthsSeq
+		WHERE 1=1
+		AND a.cthsSeq = #{cthsSeq}
+		AND a.ctrsDelNy = 0
+	</select>
+
+
+	<!-- 과제제출물 댓글 등록 -->
+	<insert id="insertHomeworkSubmitReply">
+		INSERT INTO ctReplyHomeworkSubmit(
+		ctrsSeq
+		,ctrsContent
+		,ctrsWriter
+		,ctrsDelNy
+		,regDateTime
+		,cthsSeq
+		) VALUES (
+		#{ctrsSeq}
+		,#{ctrsContent}
+		,#{ctrsWriter}
+		,0
+		,#{regDateTime}
+		,#{cthsSeq}
+		)
+	</insert>
+
+
+	<!-- 과제게시물 댓글 삭제(update) -->
+	<update id="updateHomeworkSubmitReplyUele">
+		UPDATE ctReplyHomeworkSubmit SET
+		ctrsDelNy = 1
+		WHERE 1=1
+		AND ctrsSeq = #{ctrsSeq}
+	</update>
+
+
+	<!-- 조회수 증가 -->
+	<update id="hitUpdate">
+		UPDATE
+		ctPost
+		SET
+		ctptView = ctptView + 1
+		WHERE
+		ctptSeq = #{ctptSeq}
+	</update>
+
+
+	<!-- 클래스 설정 -->
+	<update id="insertSetting">
+		UPDATE ctClass (
+		ctcsName
+		,ctcsGradeCd
+		,ctcsDesc
+		) values (
+		#{ctcsName}
+		,#{ctcsGradeCd}
+		,#{ctcsDesc}
+		)
+	</update>
+
+
+	<!-- 출석부 -->
+	<insert id="attendance">
+		INSERT INTO ctAttendance (
+		ctcmSeq,
+		ctadRegDateTime
+		) VALUES (
+		#{ctcmSeq},
+		#{ctadRegDateTime}
+		)
+	</insert>
+
+
+	<select id="getClassId" resultMap="resultMapObj">
+		SELECT
+		ctcmSeq
+		FROM ctClassMember
+		WHERE mmSeq = ${mmSeq}
+		AND ctcsSeq = ${ctcsSeq}
+	</select>
+
+
+	<!-- 출석부 날짜비교해서 하루에 한번만 기록 들어가게끔, 오늘 날짜로 들어간것들 다 불러오는 쿼리 -->
+	<select id="today" resultType="int">
+		SELECT
+		count(*)
+		FROM
+		ctAttendance
+		WHERE ctcmSeq=${ctcmSeq}
+		AND DATE_FORMAT(ctadRegDateTime, '%Y-%m-%d')=#{attendanceToday}
+	</select>
+
+
+	<select id="enterLog" resultMap="resultMapObj">
+	<![CDATA[
+	SELECT 
+		ctcmName,ctadRegDateTime 
+	FROM
+		ctClassMember a 
+		LEFT JOIN ctAttendance b on a.ctcmSeq = b.ctcmSeq 
+	WHERE ctcsSeq = #{classSeq}
+		AND b.ctadRegDateTime > #{startDate} 
+		AND b.ctadRegDateTime < #{endDate}
+	]]>
+	</select>
+
+
+	<!-- 최초 메세지를 카운트하는 쿼리 -->
+	<select id="countMsg" parameterType="hashMap"
+		resultMap="resultMapObj">
+		SELECT
+			ctcmSeq ,
+			ctcmName,
+			ctcmProfile,
+			count(case when ctmgReceiver = #{ctmgReceiver} and
+			ctmgReadNy = 0 then 1 end) as chatCountNum,
+			b.seq,
+			b.path,
+			b.uuidName
+		FROM
+			ctClassMember a
+		LEFT OUTER JOIN ctMessages on ctmgSenderId = a.ctcmSeq
+		LEFT JOIN ctClassMemberUploaded b on b.pseq = a.ctcmSeq
+		WHERE
+			a.ctcsSeq =#{ctcsSeq} and a.ctcmDelNy = 0 group by ctcmSeq;
+	</select>
+
+
+	<!-- 좋아요 여부 확인 -->
+	<select id="checkLike" resultType="Integer">
+		select count(*)
+		from
+		ctLike
+		where ctliUserSeq = #{ctcmSeq}
+		and ctptSeq = #{ctptSeq}
+	</select>
+
+	<!-- 개시물 좋아요 수 -->
+	<select id="countLike" resultType="Integer">
+		select count(*)
+		from ctLike
+		where ctptSeq = #{ctptSeq}
+	</select>
+
+	<!-- 좋아요 올리기 -->
+	<insert id="addLike">
+		insert into ctLike (
+		ctliUserSeq,
+		ctptSeq
+		) VALUES (
+		#{ctcmSeq},
+		#{ctptSeq}
+		)
+	</insert>
+
+	<!-- 좋아요 취소 -->
+	<delete id="deleteLike">
+		DELETE FROM
+		ctLike
+		WHERE 1=1
+		AND ctptSeq= #{ctptSeq}
+		AND ctliUserSeq = #{ctcmSeq}
+	</delete>
+
+	<!-- 게시글 리스트 좋아요 확인 -->
+	<select id="listLike" resultType="Integer">
+		select ctp.ctptSeq,count(*)
+		from ctLike ctl
+		left join ctPost ctp on
+		ctl.ctptSeq = ctp.ctptSeq
+		left join ctBoard ctb on ctb.ctboSeq =
+		ctp.ctboSeq
+		left join ctClass ctc on ctb.ctcsSeq = ctc.ctcsSeq
+		where
+		ctc.ctcsSeq = 1 <!-- 전체게시글이면 board seq는 안받음 포스트 seq와 클래스 seq를 받는다 -->
+		group by ctp.ctptSeq;
+	</select>
+	
+	
+	
+	<!-- 클래시 입장시 공지제외한 카테고리 불러오기  -->
+	<select id="selectCategory" resultMap="resultMapObj">
+		select * 
+		from ctBoard
+		where ctcsSeq = #{ctcsSeq} 
+		and ctboTypeCd not in (25);
+	</select>
+	
+</mapper>

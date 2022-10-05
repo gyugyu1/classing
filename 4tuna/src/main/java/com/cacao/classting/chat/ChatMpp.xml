@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cacao.classting.chat.ChatMpp">
+
+	<resultMap id="resultMapObj"
+		type="com.cacao.classting.chat.Chat"></resultMap>
+	<insert id="insertMsgInfo">
+		insert into ctMessages (
+		ctmgSender, <!-- 보낸유저 -->
+		ctmgSenderId,
+		ctmgReceiver, <!-- 받은유저 -->
+		ctmgMessage, <!-- 메시지 -->
+		ctcsSeq
+		) VALUES(
+		#{ctmgSender},
+		#{ctmgSenderId},
+		#{ctmgReceiver},
+		#{ctmgMessage},
+		#{ctcsSeq}
+
+		)
+	</insert>
+
+	<select id="selectMsg" resultMap="resultMapObj"
+		parameterType="hashMap">
+		select ctmgSender,ctmgReceiver ,
+		ctmgMessage,ctmgSenderId,ctmgSendDate
+		from ctMessages
+		where ctcsSeq =
+		#{ctcsSeq} and
+		(ctmgReceiver = #{myId} and ctmgSenderId =
+		#{ctmgReceiver})
+		or
+		(ctmgReceiver = #{ctmgReceiver} and ctmgSenderId
+		=#{myId})
+		order by ctmgSendDate
+		asc;
+	</select>
+
+
+	<update id="readNyUpdate" parameterType="hashMap">
+		update ctMessages
+		set ctmgReadNy = 1
+		where ctcsSeq = #{ctcsSeq}
+		and ctmgReceiver = #{myId}
+		and ctmgSenderId = #{ctmgReceiver}
+		and ctmgReadNy = 0
+	</update>
+
+
+
+	<select id="membersList" parameterType="Integer"
+		resultMap="resultMapObj">
+		select ctcmSeq
+		from ctClassMember
+		where ctcsSeq = #{ctcsSeq}
+	</select>
+
+
+	<select id="countMsgOne" parameterType="HashMap"
+		resultType="Integer">
+		select count(*)
+		from ctMessages
+		where ctcsSeq = #{ctcsSeq}
+		and ctmgReceiver = #{myId}
+		and ctmgSenderId = #{ctmgSenderId}
+		and
+		ctmgReadNy = 0
+	</select>
+
+	<select id="countMsg" parameterType="HashMap"
+		resultType="Integer">
+		select count(*)
+		from ctMessages
+		where ctcsSeq = #{ctcsSeq}
+		and ctmgReceiver = #{myId}
+		and ctmgReadNy = 0
+	</select>
+</mapper>

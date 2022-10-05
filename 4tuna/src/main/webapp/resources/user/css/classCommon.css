@@ -1,0 +1,35 @@
+	#classImg{
+		float: left;
+	}
+	#classInfo{
+		float: left;
+		font-size: 15px;
+		padding-top: 3px;
+	}
+	#btn-add{
+		border-radius: 50px;
+		width: 80%;
+		font-size: 12px;
+		font-weight: bold;
+		border: 1px solid #828282;
+		color: #828282;
+	}
+	#btn-zoom{
+		border-radius: 50px;
+		width: 80%;
+		font-size: 12px;
+		font-weight: bold;
+		border: 1px solid #000080;
+		color: #000080;
+	}
+	.btn-add:hover,
+	.btn-add:active,
+	.btn-add:visited,
+	.btn-add:focus{
+		background-color :#00C896;
+		color: #ffffff;
+	}
+	span{	
+		color: #5a5a5a;	
+		font-weight: bold;
+	}
