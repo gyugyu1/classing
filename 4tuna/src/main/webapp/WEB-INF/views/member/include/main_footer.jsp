@@ -10,8 +10,8 @@
 		<a href="#" class="col-md-4 d-flex mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
 			<img src="/resources/common/image/header_logo.png"  class="img-fluid" style="width: 100px; height: 40px;">
 		</a>
-		<small>㈜ 클래씽  서울시 종로구 종로구구구구구구<br>   
-			대표이사 : 최민수<br>
+		<small>㈜ 클래씽  서울시 관악구 신림동<br>   
+			대표이사 : 박규원<br>
 			사업자등록번호 : 111-00-111111<br>
 			<b>대표전화 : 1544-1900 (발신자 부담전화)</b>   팩스 : 0502-987-5711 (지역번호공통)<br>
 			COPYRIGHT(C) CLASSING CENTRE ALL RIGHTS RESERVED.

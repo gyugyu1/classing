@@ -113,7 +113,7 @@
 				</form>
 
 			</div>
-			<div class="col-md-12">
+<!-- 			<div class="col-md-12">
 				<div id="schInfo">
 					<div class="mb-4">
 						<img src="/resources/user/image/schIcon.png" width="40" height="40" style="border-radius: 7px;">
@@ -132,7 +132,7 @@
 					</div>
 
 				</div>
-			</div>
+			</div> -->
 			<!-- 모달 -->
 			<div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<form action="/classCodeSearch" id="codeModal" name="codeModal" method="post">
