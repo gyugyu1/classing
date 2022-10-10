@@ -239,7 +239,7 @@
 											<c:forEach items="${memberList}" var="itemMember" varStatus="status">
 												<c:if test="${itemReply.ctrpWriter eq itemMember.ctcmSeq and itemMember.path ne null}">
 													<span>
-														<img class="profile" src="/resources/uploaded/${ctcsSeq }/${itemMember.ctcmSeq}/${itemMember.ctcmProfile}" alt="/resources/uploaded/common/profile2.png" style="border-radius: 18px; width: 35px; height: 35px;" />
+														<img class="profile" src="/resources/uploaded/${ctcsSeq }/${itemMember.ctcmSeq}/${itemMember.ctcmProfile}" onerror="this.src='/resources/uploaded/common/profile2.png'" style="border-radius: 18px; width: 35px; height: 35px;" />
 													</span>
 												</c:if>
 											</c:forEach>
@@ -285,7 +285,7 @@
 									<div class="comment_write row">
 										<div class="col-md-3 col-lg-2" id="classImg">
 											<c:if test="${ctPath ne null}">
-												<img class="profile" src="/resources/uploaded/${ctcsSeq }/${ctcmSeq}/${ctcmProfile}" alt="/resources/uploaded/common/profile2.png" style="border-radius: 18px; width: 35px; height: 35px;" />
+												<img class="profile" src="/resources/uploaded/${ctcsSeq }/${ctcmSeq}/${ctcmProfile}" onerror="this.src='/resources/uploaded/common/profile2.png'" style="border-radius: 18px; width: 35px; height: 35px;" />
 											</c:if>
 											<div>${ctcmName}</div>
 										</div>

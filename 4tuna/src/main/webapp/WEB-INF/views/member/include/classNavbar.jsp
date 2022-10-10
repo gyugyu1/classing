@@ -40,7 +40,7 @@
 					</span>
 				</c:if>
 				<c:if test="${ctcmProfile ne null}">
-					<img class="img-profile rounded-circle" width="35px" height="35px" src="/resources/uploaded/${ctcsSeq }/${ctcmSeq}/${ctcmProfile}" alt="/resources/uploaded/common/profile2.png">
+					<img class="img-profile rounded-circle" width="35px" height="35px" src="/resources/uploaded/${ctcsSeq }/${ctcmSeq}/${ctcmProfile}" onerror="this.src='/resources/uploaded/common/profile2.png'">
 				</c:if>
 				<c:if test="${empty ctcmProfile}">
 					<img class="img-profile rounded-circle" width="35px" height="35px" src="/resources/uploaded/common/profile2.png">
